@@ -1,11 +1,11 @@
 class Stack
-    attr_reader :stack
-    def initialize(stack)
-      @stack = stack
+    
+    def initialize
+      @stack = []
     end
   
     def push(el)
-      stack << el
+      stack.push(el)
     end
   
     def pop
@@ -15,6 +15,9 @@ class Stack
     def peek
       @stack.last
     end
+
+    private
+    attr_reader :stack
 end
 
 # p test_stack = Stack.new([1,2,3]) #is this a stack?
@@ -28,12 +31,12 @@ class Queue
         @queue = queue
     end
 
-    def enqueue(ele)
-        queue.unshift(ele)
+    def enqueue(ele) #get in line
+        queue.push(ele)
     end
 
-    def dequeue
-        queue.pop
+    def dequeue #get out of line
+        queue.shift
     end
 
     def peek
