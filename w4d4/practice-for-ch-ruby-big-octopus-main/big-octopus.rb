@@ -20,7 +20,7 @@ def dominant_octopus(array)
 
     left = array[1..-1].select {|el| el.length < pivot.length}
     right = array[1..-1].select {|el| el.length > pivot.length}
-    
+
     dominant_octopus(left) + [pivot] + dominant_octopus(right)
 end
 
@@ -32,21 +32,31 @@ def dancing_octopus(tile_dir, array)
     array.each {|dir| return array.index(dir) if dir == tile_dir}
 end
 
+def second_fastest_octopus(tile_dir, array)
+  return nil if self.empty?
+
+  mid = array.length / 2
+  case tile_dir.length <=> array[mid].length
+  when 1
+    upper = bsearch(tile_dir, array[mid+1..-1])
+    upper.nil? ? nil : mid + upper + 1
+  when 0
+    return mid
+  when -1
+    lower = bsearch(tile_dir, array[0...mid])
+    lower.nil? ? nil : lower
+  end
+
+end
+
 def fast_octopus(tile_dir, hash)
     hash[tile_dir]
 end
 
-fish = ['fish', 'fiiish', 'fiiiiish', 'fiiiish', 'fffish', 'ffiiiiisshh', 'fsh', 
+fish = ['fish', 'fiiish', 'fiiiiish', 'fiiiish', 'fffish', 'ffiiiiisshh', 'fsh',
 'fiiiissshhhhhh']
 
-tiles_array = ["up", "right-up", "right", "right-down", "down", "left-down", 
+tiles_array = ["up", "right-up", "right", "right-down", "down", "left-down",
                "left",  "left-up"]
 tiles_hash = {}
 tiles_array.each {|fish| tiles_hash[fish] = tiles_array.index(fish)}
-
-p sluggish_octopus(fish)
-p dominant_octopus(fish)[-1] #sorry this is so weird
-p clever_octopus(fish)
-p dancing_octopus("left-down", tiles_array)
-p "--"
-p fast_octopus("left-down", tiles_hash)
