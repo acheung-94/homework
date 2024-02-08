@@ -15,6 +15,5 @@ class House < ApplicationRecord
         class_name: 'Person',
         foreign_key: :house_id,
         primary_key: :id
-
     )
 end
