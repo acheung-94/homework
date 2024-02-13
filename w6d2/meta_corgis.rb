@@ -106,20 +106,48 @@ class MetaCorgiSnacks
   def initialize(snack_box, box_id)
     @snack_box = snack_box
     @box_id = box_id
+    snack_box.methods.grep(/^get_(.*)_info$/) { MetaCorgiSnacks.define_snack $1 }
   end
 
-  def method_missing(name, *args)
-    # Your code here
-    get_snack = "get_#{name}"
+  # def method_missing(name, *args)
+  #   # Your code here
+  #   get_snack = "get_#{name}"
+  #   get_info = "#{get_snack}_info"
+  #   get_taste = "#{get_snack}_tastiness"
 
-    args << get_info = "#{get_snack}_info"
-    args << get_taste = "#{get_snack}_info"
-    @snack_box.send(get_info, @box_id)
-    output = "#{name}: #{info}: #{taste}"
-    taste > 30 ? "*#{output}" : output
-  end
+  #   info = @snack_box.send(get_info, @box_id)
+  #   taste = @snack_box.send(get_taste, @box_id)
+
+  #   output = "#{name}: #{info}: #{taste}"
+  #   taste > 30 ? "* #{output}" : output
+  # end
   
   def self.define_snack(name)
     # Your code here
+    define_method(name) do 
+      get_info = "get_#{name}_info"
+      get_taste = "get_#{name}_tastiness"
+      info = @snack_box.send(get_info, @box_id)
+      taste = @snack_box.send(get_taste, @box_id)
+      p "#{name.capitalize}: #{info}: #{taste}"
+      #define_method(name) { puts "#{name.capitalize}: #{info}: #{taste}"}
+    end
   end
+  # define_snack(:bone)
+  # define_snack(:kibble)
+  # define_snack(:treat)
+
 end
+
+# class Dog
+#   # defines a class method that will define more methods; this is
+#   # called a **macro**.
+
+#   def self.makes_sound(name)
+#     define_method(name) { puts "#{name}!" }
+#   end
+
+#   makes_sound(:woof)
+#   makes_sound(:bark)
+#   makes_sound(:grr)
+# end
