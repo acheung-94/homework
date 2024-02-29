@@ -30,8 +30,9 @@ function teaAndBiscuits (){
             console.log(`So you ${first} want tea and definitely ${second} want biscuits.`);
             reader.close();
         })
-        console.log(`Async tea!`)
-    })   
+        console.log(`after biscuit prompt`)
+    })
+    console.log(`after tea prompt`)   
 }
 
 teaAndBiscuits()
