@@ -65,7 +65,7 @@ addPhotoForm.addEventListener('submit', event => {
   let img = document.createElement('img')
   img.src = urlInputValue
   let li = document.createElement('li')
-  li.append( img)
+  li.append(img)
   ul.appendChild(li)
 })
 });
