@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
 
-    wrap_parameters include: User.attribute_names : ['password'] #allows nesting of password under :user key, in addition to :username by default.
+    wrap_parameters include: User.attribute_names + ['password'] #allows nesting of password under :user key, in addition to :username by default.
     before_action :require_logged_out, only: [:create]
     def create
         @user = User.new(user_params)

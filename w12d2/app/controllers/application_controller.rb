@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
     include ActionController::RequestForgeryProtection #include module that includes CSRF protection
     before_action :snake_case_params #format keys before any controller actions!
+    before_action :attach_auth_token  
     protect_from_forgery with: :exception
 
     def current_user
@@ -34,7 +35,7 @@ class ApplicationController < ActionController::API
     end
     private
     def snake_case_params
-        params.deep_transform_keys!(&.underscore) # frontend to backend case translation
+        params.deep_transform_keys!(&:underscore) # frontend to backend case translation
     end
 
     def attach_auth_token #include auth token with form data. Rails automatically did that on non api apps. Need to do this ourselves in an api build.

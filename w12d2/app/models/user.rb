@@ -27,7 +27,7 @@ class User < ApplicationRecord
     def generate_session_token
         loop do
             token = SecureRandom::urlsafe_base64
-            return token unless User.exists(session_token: token)
+            return token unless User.exists?(session_token: token)
         end
     end
 end

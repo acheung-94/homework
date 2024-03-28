@@ -11,7 +11,7 @@ export const createSession = (sessionInfo) => ( {
 })
 
 export const destroySession = () => ( { //no payload
-    type: DESTROY_SESSION,
+    type: DESTROY_SESSION
 })
 //  THUNK ACION CREATORS (db interactions!)
 export const createUser = userInfo => dispatch => {
@@ -47,17 +47,14 @@ export const loginUser = sessionInfo => dispatch => {
 }
 
 export const logoutUser = () => dispatch => {
-    destroySession(sessionInfo)
+    deleteSession()
         .then(res => {
             if (res.ok) {
-                return res.json()
+                sessionStorage.removeItem('currentUser')
+                dispatch(destroySession()) // refer to jbuilder formats
             }else {
                 throw res.json()
             }
-        })
-        .then(data => {
-            sessionStorage.setItem('currentUser', JSON.stringify(data.user)) // create a new user and log in
-            dispatch(createSession(data.user)) // refer to jbuilder formats
         })
         .catch(err => console.error(err))
 }
@@ -66,7 +63,7 @@ export const selectCurrentUser = state => state.session
 //  REDUCERS
  // default session state is current user from session storage, allows state to persist through refresh.
 const initialState = JSON.parse(sessionStorage.getItem('currentUser'))
-export const sessionReducer = (state = initialState, action) => {
+const sessionReducer = (state = initialState, action) => {
     const newState = {...state}
     switch(action.type) {
         case CREATE_SESSION:
@@ -78,4 +75,4 @@ export const sessionReducer = (state = initialState, action) => {
     }
 }
 
-// export default sessionReducer
+export default sessionReducer

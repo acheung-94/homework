@@ -1,14 +1,13 @@
 import { applyMiddleware, combineReducers, legacy_createStore } from "redux"
-import { thunk } from "redux-thunk"
+import {thunk} from "redux-thunk"
 import logger from "redux-logger"
-import {sessionReducer } from 'sessionReducer.js'
+import sessionReducer from "./sessionReducer"
 
 const rootReducer = combineReducers({
     session: sessionReducer
 })
 
-const configureStore = (initialState = {}) => {
+const configureStore = (initialState = {}) => (
     legacy_createStore(rootReducer, initialState, applyMiddleware(thunk, logger))
-}
-
-export default configureStore
+)
+export default configureStore;
